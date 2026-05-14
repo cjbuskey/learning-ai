@@ -1,5 +1,18 @@
 {
   "cycle": 1,
-  "last_topic_index": 0,
-  "history": []
+  "last_topic_index": 1,
+  "history": [
+    {
+      "date": "2026-05-14",
+      "cycle": 1,
+      "day": 1,
+      "topic": "evals",
+      "topic_index": 1,
+      "slug": "support-tickets",
+      "folder": "evals/cycle-1-day-1-support-tickets",
+      "format": "BUILD",
+      "done": true,
+      "headline": "From-scratch offline eval harness; first run hit 15/15 (golden set too easy). Added 4 adversarial tickets, dropped to 16/19 (84.2%) — failures revealed the classifier latches onto keywords rather than primary ask."
+    }
+  ]
 }

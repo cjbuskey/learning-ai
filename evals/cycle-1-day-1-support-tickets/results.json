@@ -1,0 +1,160 @@
+{
+  "n": 19,
+  "correct": 16,
+  "accuracy": 84.21052631578947,
+  "judge_avg": 5.0,
+  "results": [
+    {
+      "ticket": "My invoice is wrong, charged twice for the same month",
+      "expected": "billing",
+      "predicted": "billing",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "The ticket explicitly mentions invoice and charging issues, which are unambiguously billing-related concerns."
+    },
+    {
+      "ticket": "I need a refund for last month's subscription, I cancelled before renewal",
+      "expected": "billing",
+      "predicted": "billing",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is unambiguously a billing issue involving subscription refunds and cancellation, making it an obviously correct classification."
+    },
+    {
+      "ticket": "Why was my card charged $49 when the plan says $39?",
+      "expected": "billing",
+      "predicted": "billing",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "The ticket explicitly mentions a card charge discrepancy between an expected price ($39) and actual charge ($49), which is unambiguously a billing issue."
+    },
+    {
+      "ticket": "Can I get a copy of my receipt for the March payment?",
+      "expected": "billing",
+      "predicted": "billing",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "The ticket explicitly requests a receipt for a payment, which is unambiguously a billing-related matter."
+    },
+    {
+      "ticket": "App crashes on login on iOS 17, started after the latest update",
+      "expected": "technical",
+      "predicted": "technical",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "The ticket explicitly describes a technical issue (app crash) with clear reproduction conditions (login on iOS 17 after update), making the classification unambiguously correct."
+    },
+    {
+      "ticket": "Can't reset 2FA, the SMS code never arrives",
+      "expected": "technical",
+      "predicted": "technical",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is unambiguously a technical issue involving a two-factor authentication system failure where SMS delivery is not functioning."
+    },
+    {
+      "ticket": "Export to CSV produces a corrupted file every time",
+      "expected": "technical",
+      "predicted": "technical",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is an unambiguous technical issue reporting a specific bug with file export functionality that clearly requires technical investigation and resolution."
+    },
+    {
+      "ticket": "Dashboard charts are blank in Safari but work in Chrome",
+      "expected": "technical",
+      "predicted": "technical",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is unambiguously a technical issue describing a browser-specific rendering problem with dashboard charts."
+    },
+    {
+      "ticket": "How do I change the email address on my account?",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "The ticket is explicitly about modifying account settings (email address), making the 'account' classification unambiguously correct."
+    },
+    {
+      "ticket": "I want to delete my account and all associated data",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "The ticket explicitly requests account deletion, which is unambiguously an account management issue with no alternative interpretation."
+    },
+    {
+      "ticket": "Add my coworker Sarah as an admin on our team workspace",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is clearly an account management request about adding a user with elevated permissions (admin role) to a workspace, making the classification unambiguously correct."
+    },
+    {
+      "ticket": "Transfer ownership of the workspace to a different user",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is an account management task involving workspace ownership changes, which is unambiguously a core account administration function."
+    },
+    {
+      "ticket": "Do you offer discounts for nonprofits?",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is a straightforward general inquiry about nonprofit discounts that doesn't fit into standard support categories like billing, technical issues, or account management, making 'other' the obviously correct classification."
+    },
+    {
+      "ticket": "Where can I find your API documentation?",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is a straightforward informational question about API documentation that clearly falls outside standard support categories like bugs, features, or billing."
+    },
+    {
+      "ticket": "Are you hiring? I saw your product at a conference",
+      "expected": "other",
+      "predicted": "other",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is clearly not a support request, bug report, or feature request\u2014it's a general inquiry/comment about hiring and product discovery, making 'other' the obviously correct classification."
+    },
+    {
+      "ticket": "I was charged again after I deleted my account last month \u2014 please close it for good.",
+      "expected": "account",
+      "predicted": "billing",
+      "correct": false,
+      "judge_score": null,
+      "judge_rationale": "While the ticket involves a billing charge, the core issue is about account deletion and closure, making 'account' the more appropriate category than 'billing'."
+    },
+    {
+      "ticket": "Technically my cofounder owns the workspace, but I'm the one paying \u2014 can you swap us?",
+      "expected": "account",
+      "predicted": "account",
+      "correct": true,
+      "judge_score": 5,
+      "judge_rationale": "This is clearly an account management issue involving workspace ownership and billing responsibility, making the classification unambiguous and obviously correct."
+    },
+    {
+      "ticket": "Is there a way to bulk-export tickets older than 90 days? Couldn't find it in the docs.",
+      "expected": "other",
+      "predicted": "technical",
+      "correct": false,
+      "judge_score": null,
+      "judge_rationale": "This is a feature request or documentation inquiry rather than a technical problem, as the user is asking about a capability that may or may not exist rather than troubleshooting a technical issue."
+    },
+    {
+      "ticket": "Do your invoices show line-item taxes? Our finance team needs that for compliance.",
+      "expected": "other",
+      "predicted": "billing",
+      "correct": false,
+      "judge_score": null,
+      "judge_rationale": "This question is asking about invoice features and tax reporting requirements for compliance purposes, which is a general product feature inquiry rather than a billing/account management issue, making 'other' more appropriate."
+    }
+  ]
+}

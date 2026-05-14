@@ -57,9 +57,23 @@ Expected keys: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, plus any topic-specific ke
 
 1. Read `curriculum-state.json` — confirm today's cycle, topic, and prior history for that topic.
 2. Read the brief in `briefs/`.
-3. Create `<topic-folder>/cycle-N-day-N-<slug>/` and scope the work to fit ~60 minutes. **Scope down rather than overflow.**
-4. Capture the brief, what was built, and the "interview hook" insight in that folder's `README.md`.
-5. Mark the day done in `curriculum-state.json` (`done: true` for today's history entry) and commit.
+3. **Confirm mode** — ask the user "Pair, Scaffold, or Demo?" if not specified. Default is **Pair** (user types, Claude reviews). See "Working modes" below.
+4. Create `<topic-folder>/cycle-N-day-N-<slug>/` and scope the work to fit ~60 minutes. **Scope down rather than overflow.**
+5. **Predict (5 min, user-only)** — before running anything, the user writes down what they expect the metric/output/failure modes to be. Claude prompts but does not predict.
+6. Work the brief. Capture what was built and the "interview hook" insight in that folder's `README.md`.
+7. **Generate `explainer.html`** in the project folder — Mets-themed (navy `#002D72`, orange `#FF5910`, Mulish font). One per day, standing deliverable. Reference template: `evals/cycle-1-day-1-support-tickets/explainer.html`. Keep it concise after Day 1 — reuse the established style; don't rebuild from scratch.
+8. **Cold-typing drill (~10 min, in chat)** — Claude poses one small task, blank buffer, no copy-paste from today's repo. User types; Claude pushes back rather than autocompletes. One follow-up twist. Exit when the user has written it cold; if they couldn't, that's tomorrow's warm-up.
+9. Mark the day done in `curriculum-state.json` (`done: true` for today's history entry) and commit.
+
+## Working modes
+
+Confirm at the start of every brief:
+
+- **Pair (default)** — user types the implementation; Claude answers questions, reviews diffs, suggests fixes. Claude does NOT write the code unless asked.
+- **Scaffold** — Claude writes a skeleton with `# TODO` blocks; user fills them in. Use for unfamiliar SDKs.
+- **Demo** — Claude writes the full implementation; user reads/modifies. Reserved for WRITE briefs (cost memos) or topics where typing is not the lesson.
+
+Reviewing builds exposure; typing builds fluency. Default to Pair.
 
 ## Constraints to respect
 
@@ -74,7 +88,9 @@ Interview-ready artifacts. Each project should have a 60-second story: "I built 
 
 ## Notes for coding agents
 
-- Don't scaffold beyond what the brief asks. Smallest viable artifact wins; production polish is reserved for cycle 3+ briefs that explicitly call for it.
+- **Pair mode is the default.** Do not write the implementation unless the user asks or the brief specifies Scaffold/Demo. The user is preparing for an Anthropic Applied AI Engineer interview in early 2027 — typing fluency is the goal, not artifact polish.
+- Don't scaffold beyond what the brief asks. Smallest viable artifact wins; production polish is reserved for cycle 3+ briefs that explicitly call for it. **Exception:** the daily `explainer.html` is part of the standing workflow, not scope creep.
 - Don't auto-generate boilerplate READMEs. The README is the learning record — write it from what actually happened in the session.
 - Prefer editing `curriculum-state.json` directly with a small script or jq over regenerating it.
 - When a brief says "build on cycle N's artifact," import or call into that folder; don't fork it.
+- During the cold-typing drill, never type the answer into the user's buffer or paste a full solution. Push back with leading questions instead.

@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Eval Harness — A Mets Fan's Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #002D72;
+    --orange: #FF5910;
+    --cream: #fdf8ef;
+    --chalk: #ffffff;
+    --grass: #2e7d3a;
+    --dirt: #b88862;
+    --ink: #15264a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Mulish", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    background:
+      repeating-linear-gradient(45deg, var(--cream) 0 22px, #f5ecd9 22px 44px);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  header {
+    background: var(--navy);
+    color: var(--chalk);
+    padding: 36px 24px 28px;
+    border-bottom: 8px solid var(--orange);
+    text-align: center;
+    position: relative;
+  }
+  header::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: -8px; height: 8px;
+    background: repeating-linear-gradient(90deg, var(--orange) 0 24px, var(--navy) 24px 28px);
+  }
+  .badge {
+    display: inline-block;
+    background: var(--chalk);
+    color: var(--navy);
+    border: 4px solid var(--orange);
+    border-radius: 50%;
+    width: 84px; height: 84px;
+    line-height: 76px;
+    font-weight: 900;
+    font-size: 32px;
+    font-style: italic;
+    letter-spacing: -2px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+  }
+  h1 {
+    font-family: "Mulish", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    margin: 14px 0 4px;
+    letter-spacing: -0.5px;
+    text-transform: none;
+  }
+  h2, h3 { font-family: "Mulish", "Helvetica Neue", Arial, sans-serif; font-weight: 800; letter-spacing: -0.3px; }
+  .tagline {
+    color: var(--orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 13px;
+  }
+  main { max-width: 920px; margin: 0 auto; padding: 32px 24px 80px; }
+  section {
+    background: var(--chalk);
+    border: 2px solid var(--navy);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 22px;
+    box-shadow: 6px 6px 0 var(--orange);
+  }
+  h2 {
+    color: var(--navy);
+    border-bottom: 3px solid var(--orange);
+    padding-bottom: 6px;
+    margin-top: 0;
+    font-size: 22px;
+  }
+  h3 { color: var(--orange); margin-bottom: 4px; font-size: 17px; }
+  code, pre {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+  pre {
+    background: var(--ink);
+    color: #eaf1ff;
+    padding: 14px 16px;
+    border-left: 5px solid var(--orange);
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 13px;
+  }
+  code.inline {
+    background: #fff3ec;
+    color: var(--navy);
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid #ffd3bb;
+    font-size: 13px;
+  }
+  .lineup {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 10px 16px;
+    align-items: start;
+    margin: 12px 0;
+  }
+  .num {
+    background: var(--navy);
+    color: var(--chalk);
+    border: 2px solid var(--orange);
+    border-radius: 50%;
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 20px; font-style: italic;
+  }
+  .scoreboard {
+    background: var(--navy);
+    color: var(--chalk);
+    border: 4px solid var(--orange);
+    border-radius: 8px;
+    padding: 16px 22px;
+    font-family: "SF Mono", Menlo, monospace;
+    margin: 14px 0;
+  }
+  .scoreboard .row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(255,89,16,0.35);
+  }
+  .scoreboard .row:last-child { border-bottom: 0; }
+  .scoreboard .label { color: #ffd3bb; letter-spacing: 1px; }
+  .scoreboard .val { color: var(--orange); font-weight: bold; }
+  .callout {
+    background: #fff3ec;
+    border-left: 6px solid var(--orange);
+    padding: 12px 16px;
+    margin: 14px 0;
+    border-radius: 4px;
+  }
+  .callout strong { color: var(--navy); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid #d8dde8;
+  }
+  th {
+    background: var(--navy);
+    color: var(--chalk);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  tr:nth-child(even) td { background: #fbf6ec; }
+  footer {
+    text-align: center;
+    color: var(--navy);
+    padding: 18px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+  .ball {
+    display: inline-block;
+    width: 14px; height: 14px;
+    background: var(--chalk);
+    border: 1.5px solid var(--orange);
+    border-radius: 50%;
+    margin: 0 4px;
+    vertical-align: middle;
+    box-shadow: inset -2px -2px 0 #ffd3bb;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">NY</div>
+  <div class="tagline">Cycle 1 · Day 1 · Eval Frameworks</div>
+  <h1>The Eval Harness Playbook</h1>
+  <div class="tagline" style="color:#fff;">A Mets Fan's Guide to LLM Evaluation</div>
+</header>
+
+<main>
+
+<section>
+  <h2><span class="ball"></span> First Pitch: Why Evals?</h2>
+  <p>
+    Imagine you're the Mets' manager. You want to know if your starting pitcher is getting better or worse —
+    you don't wait for fans to boo from the upper deck. You look at <strong>stats</strong>: ERA, WHIP, strikeout rate.
+  </p>
+  <p>
+    An <strong>eval framework</strong> is the same idea for LLMs. Instead of waiting for users to complain,
+    you run your model against a <strong>fixed set of test cases</strong> and measure how it does.
+    Change the prompt? Run the eval. New model version? Run the eval. Did the score go up or down?
+    That's your scoreboard.
+  </p>
+  <div class="callout">
+    <strong>The core idea:</strong> evals turn "I think the model is good" into a number you can defend.
+  </div>
+</section>
+
+<section>
+  <h2><span class="ball"></span> The Lineup: How Our Harness Bats</h2>
+  <p>This script bats five hitters in order. Each one does one job.</p>
+
+  <div class="lineup">
+    <div class="num">1</div>
+    <div>
+      <h3>Leadoff — The Golden Set</h3>
+      A hand-written list of 15 support tickets, each with the <em>correct</em> category already known
+      (<code class="inline">billing</code>, <code class="inline">technical</code>, <code class="inline">account</code>, <code class="inline">other</code>).
+      This is your "answer key." Without it, you can't score anything.
+    </div>
+
+    <div class="num">2</div>
+    <div>
+      <h3>Two-Hole — The Classifier</h3>
+      Sends each ticket to <code class="inline">claude-haiku-4-5</code> with a system prompt that says
+      "pick one of these four categories, return JSON." That's the system under test — the player whose stats we care about.
+    </div>
+
+    <div class="num">3</div>
+    <div>
+      <h3>Three-Hole — The Exact-Match Scorer</h3>
+      Did the predicted category equal the expected category? Yes or no. Add them up, divide by total → <strong>accuracy</strong>.
+      Simple, but this is the official box score.
+    </div>
+
+    <div class="num">4</div>
+    <div>
+      <h3>Cleanup — The LLM-as-Judge</h3>
+      Here's the trick. We send each result to Claude <em>a second time</em> and ask:
+      "Was this an obvious correct answer (5/5) or a lucky guess (1/5)? If wrong, why?"
+      Regex can't do this — it has no taste. An LLM can.
+    </div>
+
+    <div class="num">5</div>
+    <div>
+      <h3>Five-Hole — The Report</h3>
+      Print the scoreboard, dump <code class="inline">results.json</code>, and surface failures with the judge's reasoning.
+      That last bit — the <em>why</em> behind a failure — is the actionable part.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="ball"></span> The Flow Diagram</h2>
+  <p>The diagram below shows the full data flow for a single ticket. The whole script repeats this loop 15 times (once per ticket in the golden set), then prints a final report.</p>
+
+  <div style="overflow-x:auto; text-align:center;">
+  <svg viewBox="0 0 880 620" width="100%" style="max-width:880px; height:auto; background:#ffffff; border:2px solid var(--navy); border-radius:8px;" xmlns="http://www.w3.org/2000/svg" font-family="Mulish, Helvetica, Arial, sans-serif">
+    <defs>
+      <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#002D72"/>
+      </marker>
+      <marker id="arr-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#FF5910"/>
+      </marker>
+    </defs>
+
+    <!-- Title -->
+    <text x="20" y="32" font-weight="900" font-size="18" fill="#002D72">EVAL HARNESS DATA FLOW</text>
+    <text x="20" y="52" font-weight="600" font-size="12" fill="#15264a">eval.py · run() loops over GOLDEN[] · one iteration shown</text>
+
+    <!-- 1. Golden Set -->
+    <g>
+      <rect x="40" y="80" width="220" height="80" rx="6" fill="#fdf8ef" stroke="#002D72" stroke-width="2.5"/>
+      <text x="150" y="105" text-anchor="middle" font-weight="900" font-size="14" fill="#002D72">GOLDEN[ ]</text>
+      <text x="150" y="124" text-anchor="middle" font-weight="600" font-size="11" fill="#15264a">15 dicts, hand-written</text>
+      <text x="150" y="142" text-anchor="middle" font-weight="600" font-size="11" fill="#15264a">{ticket, expected}</text>
+    </g>
+
+    <!-- arrow into classifier -->
+    <line x1="260" y1="120" x2="340" y2="120" stroke="#002D72" stroke-width="2.5" marker-end="url(#arr2)"/>
+    <text x="300" y="112" text-anchor="middle" font-size="10" font-weight="700" fill="#15264a">ticket</text>
+
+    <!-- 2. Classifier -->
+    <g>
+      <rect x="340" y="80" width="240" height="100" rx="6" fill="#FF5910" stroke="#002D72" stroke-width="2.5"/>
+      <text x="460" y="105" text-anchor="middle" font-weight="900" font-size="14" fill="#ffffff">classify(ticket)</text>
+      <text x="460" y="124" text-anchor="middle" font-weight="700" font-size="11" fill="#ffffff">Anthropic API call #1</text>
+      <text x="460" y="142" text-anchor="middle" font-weight="600" font-size="10" fill="#ffe9dc">model: claude-haiku-4-5</text>
+      <text x="460" y="158" text-anchor="middle" font-weight="600" font-size="10" fill="#ffe9dc">system: CLASSIFIER_SYSTEM</text>
+      <text x="460" y="172" text-anchor="middle" font-weight="600" font-size="10" fill="#ffe9dc">→ {"category": "..."}</text>
+    </g>
+
+    <!-- arrow down to scorer -->
+    <line x1="460" y1="180" x2="460" y2="240" stroke="#002D72" stroke-width="2.5" marker-end="url(#arr2)"/>
+    <text x="468" y="215" font-size="10" font-weight="700" fill="#15264a">predicted</text>
+
+    <!-- 3. Scorer -->
+    <g>
+      <rect x="320" y="240" width="280" height="70" rx="6" fill="#002D72"/>
+      <text x="460" y="265" text-anchor="middle" font-weight="900" font-size="14" fill="#ffffff">EXACT-MATCH SCORER</text>
+      <text x="460" y="285" text-anchor="middle" font-weight="600" font-size="11" fill="#ffd3bb">correct = (predicted == expected)</text>
+      <text x="460" y="301" text-anchor="middle" font-weight="600" font-size="10" fill="#ffd3bb">inline in run()</text>
+    </g>
+
+    <!-- branch to judge -->
+    <line x1="460" y1="310" x2="460" y2="360" stroke="#002D72" stroke-width="2.5" marker-end="url(#arr2)"/>
+
+    <!-- 4. Judge -->
+    <g>
+      <rect x="280" y="360" width="360" height="120" rx="6" fill="#FF5910" stroke="#002D72" stroke-width="2.5"/>
+      <text x="460" y="385" text-anchor="middle" font-weight="900" font-size="14" fill="#ffffff">judge(result)</text>
+      <text x="460" y="404" text-anchor="middle" font-weight="700" font-size="11" fill="#ffffff">Anthropic API call #2</text>
+      <text x="460" y="422" text-anchor="middle" font-weight="600" font-size="10" fill="#ffe9dc">if correct → JUDGE_CORRECT_SYSTEM → {"score":1-5, "rationale"}</text>
+      <text x="460" y="438" text-anchor="middle" font-weight="600" font-size="10" fill="#ffe9dc">else      → JUDGE_WRONG_SYSTEM   → {"rationale"}</text>
+      <text x="460" y="462" text-anchor="middle" font-weight="700" font-size="11" fill="#ffffff" font-style="italic">"the why behind the score"</text>
+    </g>
+
+    <!-- arrow to results list -->
+    <line x1="460" y1="480" x2="460" y2="525" stroke="#002D72" stroke-width="2.5" marker-end="url(#arr2)"/>
+
+    <!-- 5. results list -->
+    <g>
+      <rect x="320" y="525" width="280" height="60" rx="6" fill="#fdf8ef" stroke="#002D72" stroke-width="2.5"/>
+      <text x="460" y="550" text-anchor="middle" font-weight="900" font-size="14" fill="#002D72">results: list[Result]</text>
+      <text x="460" y="570" text-anchor="middle" font-weight="600" font-size="10" fill="#15264a">appended each iteration</text>
+    </g>
+
+    <!-- loop arrow back to GOLDEN -->
+    <path d="M 320 555 Q 150 555 150 160" fill="none" stroke="#FF5910" stroke-width="2.5" stroke-dasharray="6,5" marker-end="url(#arr-orange)"/>
+    <text x="80" y="430" font-size="11" font-weight="800" fill="#FF5910">loop next ticket</text>
+    <text x="80" y="446" font-size="10" font-weight="600" fill="#15264a">15 total iterations</text>
+
+    <!-- report (after loop) -->
+    <g>
+      <rect x="660" y="525" width="200" height="60" rx="6" fill="#002D72"/>
+      <text x="760" y="550" text-anchor="middle" font-weight="900" font-size="14" fill="#ffffff">report(results)</text>
+      <text x="760" y="568" text-anchor="middle" font-weight="600" font-size="10" fill="#ffd3bb">stdout + results.json</text>
+    </g>
+    <line x1="600" y1="555" x2="660" y2="555" stroke="#002D72" stroke-width="2.5" marker-end="url(#arr2)"/>
+    <text x="630" y="548" text-anchor="middle" font-size="9" font-weight="700" fill="#15264a">after</text>
+    <text x="630" y="572" text-anchor="middle" font-size="9" font-weight="700" fill="#15264a">loop</text>
+
+    <!-- side note: __main__ -->
+    <g>
+      <rect x="660" y="80" width="200" height="160" rx="6" fill="#fff3ec" stroke="#FF5910" stroke-width="2"/>
+      <text x="760" y="105" text-anchor="middle" font-weight="900" font-size="13" fill="#002D72">ENTRY POINT</text>
+      <text x="760" y="128" text-anchor="middle" font-weight="700" font-size="11" fill="#15264a">if __name__ == "__main__":</text>
+      <text x="760" y="148" text-anchor="middle" font-weight="600" font-size="11" fill="#15264a">load .env</text>
+      <text x="760" y="166" text-anchor="middle" font-weight="600" font-size="11" fill="#15264a">check API key</text>
+      <text x="760" y="184" text-anchor="middle" font-weight="600" font-size="11" fill="#15264a">report(run())</text>
+      <text x="760" y="216" text-anchor="middle" font-weight="800" font-size="11" fill="#FF5910">$ python eval.py</text>
+    </g>
+  </svg>
+  </div>
+</section>
+
+<section>
+  <h2><span class="ball"></span> The Actual Code: What Runs When You Type <code class="inline">python eval.py</code></h2>
+  <p>
+    There is exactly <strong>one script</strong> in this project: <code class="inline">eval.py</code>.
+    No frameworks, no test runner — just Python calling the Anthropic SDK in a loop.
+    Here's a tour, in execution order.
+  </p>
+
+  <h3>① Bootstrap</h3>
+<pre>from anthropic import Anthropic
+from dotenv import find_dotenv, load_dotenv
+
+load_dotenv(find_dotenv())   # walks up to repo root, loads .env
+CLIENT = Anthropic()          # auto-reads ANTHROPIC_API_KEY
+MODEL = "claude-haiku-4-5"
+CATEGORIES = ["billing", "technical", "account", "other"]</pre>
+  <p>The <code class="inline">find_dotenv()</code> call is what lets a single shared <code class="inline">.env</code> at the repo root work for every project folder.</p>
+
+  <h3>② The Golden Set (the answer key)</h3>
+<pre>GOLDEN = [
+    {"ticket": "My invoice is wrong, charged twice...", "expected": "billing"},
+    {"ticket": "App crashes on login on iOS 17...",     "expected": "technical"},
+    # ...13 more
+]</pre>
+
+  <h3>③ <code class="inline">_call_json(system, user)</code> — the shared API helper</h3>
+<pre>def _call_json(system, user):
+    msg = CLIENT.messages.create(
+        model=MODEL, max_tokens=300,
+        system=system,
+        messages=[{"role": "user", "content": user}],
+    )
+    text = msg.content[0].text.strip()
+    # strip ``` fences if the model added them
+    return json.loads(text)</pre>
+  <p>Both the classifier and the judge go through this function — the only difference between them is the system prompt.</p>
+
+  <h3>④ <code class="inline">classify(ticket)</code> — API call #1</h3>
+<pre>def classify(ticket):
+    out = _call_json(CLASSIFIER_SYSTEM, f"Ticket: {ticket}")
+    return out.get("category", "other")</pre>
+  <p>Returns one of the 4 category strings. This is the <em>system under test</em>.</p>
+
+  <h3>⑤ <code class="inline">judge(result)</code> — API call #2</h3>
+<pre>def judge(result):
+    user = f"Ticket: {result.ticket}\nExpected: {result.expected}\nPredicted: {result.predicted}"
+    if result.correct:
+        out = _call_json(JUDGE_CORRECT_SYSTEM, user)   # rate 1-5
+        result.judge_score = int(out["score"])
+    else:
+        out = _call_json(JUDGE_WRONG_SYSTEM, user)     # explain miss
+    result.judge_rationale = out.get("rationale", "")</pre>
+  <p>This is the LLM-as-judge — Claude grading Claude. Different prompt depending on whether the classifier got it right.</p>
+
+  <h3>⑥ <code class="inline">run()</code> — the main loop</h3>
+<pre>def run():
+    results = []
+    for i, ex in enumerate(GOLDEN, 1):
+        predicted = classify(ex["ticket"])             # API call #1
+        r = Result(ticket=..., expected=..., predicted=...,
+                   correct=(predicted == ex["expected"]))   # scorer (inline)
+        judge(r)                                        # API call #2
+        results.append(r)
+    return results</pre>
+  <p>Each iteration = 2 API calls. 15 tickets × 2 = <strong>30 calls per run</strong>. Cheap on Haiku (well under the $5 cap).</p>
+
+  <h3>⑦ <code class="inline">report(results)</code> — the box score</h3>
+<pre>def report(results):
+    correct = [r for r in results if r.correct]
+    acc = len(correct) / len(results) * 100
+    avg = sum(r.judge_score for r in correct) / len(correct)
+    print(f"Accuracy:        {len(correct)}/{len(results)} ({acc:.1f}%)")
+    print(f"Judge avg score: {avg:.2f} / 5.0")
+    # ...failures with judge rationale
+    Path("results.json").write_text(json.dumps(...))</pre>
+
+  <h3>⑧ The entry point</h3>
+<pre>if __name__ == "__main__":
+    if not os.getenv("ANTHROPIC_API_KEY"):
+        raise SystemExit("ANTHROPIC_API_KEY not found...")
+    print(f"Running {len(GOLDEN)} tickets through {MODEL}...")
+    report(run())</pre>
+  <p>This is the only thing that fires when you invoke the script. Everything above is just definitions.</p>
+
+  <div class="callout">
+    <strong>How to run it yourself:</strong>
+<pre style="margin-top:8px;">cd evals/cycle-1-day-1-support-tickets
+python3 -m venv .venv
+.venv/bin/pip install anthropic python-dotenv
+.venv/bin/python eval.py</pre>
+    The script reads <code class="inline">ANTHROPIC_API_KEY</code> from the repo-root <code class="inline">.env</code>, runs all 15 tickets, prints a scoreboard, and writes <code class="inline">results.json</code> next to <code class="inline">eval.py</code>.
+  </div>
+</section>
+
+<section>
+  <h2><span class="ball"></span> The At-Bat: One Ticket, Step by Step</h2>
+  <p>Here's what happens to a single ticket like <code class="inline">"App crashes on login on iOS 17"</code>:</p>
+
+<pre>1. CLASSIFIER CALL
+   system: "Classify into billing/technical/account/other..."
+   user:   "Ticket: App crashes on login on iOS 17"
+   →  {"category": "technical"}
+
+2. SCORER
+   expected = "technical"
+   predicted = "technical"
+   correct = True   ✓
+
+3. JUDGE CALL  (because it was correct)
+   system: "Rate clarity 1-5..."
+   →  {"score": 5, "rationale": "Crash + iOS version is unambiguously technical"}
+
+4. RESULT STORED
+   Result(ticket=..., correct=True, judge_score=5, ...)</pre>
+
+  <p>
+    Multiply that by 15 tickets, and you have a full game's worth of at-bats.
+    Each one produces a row in your results — a stat line you can compare across runs.
+  </p>
+</section>
+
+<section>
+  <h2><span class="ball"></span> The Scoreboard from Today's Run</h2>
+
+  <div class="scoreboard">
+    <div class="row"><span class="label">ACCURACY</span><span class="val">16 / 19  (84.2%)</span></div>
+    <div class="row"><span class="label">JUDGE AVG</span><span class="val">5.00 / 5.0  (over 16 correct)</span></div>
+    <div class="row"><span class="label">FAILURES</span><span class="val">3</span></div>
+    <div class="row"><span class="label">MODEL</span><span class="val">claude-haiku-4-5</span></div>
+  </div>
+
+  <div class="callout">
+    <strong>Now we have signal.</strong> The first run hit 100% — a warning sign that the eval was too easy.
+    After adding 4 adversarial tickets (keyword traps, mixed intent, ambiguous overlap), the model misses 3 of them.
+    That's the eval doing its job: a 100% score told us nothing; an 84.2% score with reasoned failures tells us <em>exactly</em> where the prompt is weak.
+  </div>
+
+  <h3 style="margin-top:18px;">The 3 failures</h3>
+  <table>
+    <tr><th>Ticket</th><th>Predicted</th><th>Expected</th><th>Judge's reasoning</th></tr>
+    <tr>
+      <td>"I was charged again after I deleted my account last month — please close it for good."</td>
+      <td>billing</td><td>account</td>
+      <td>The charge is mentioned, but the <em>ask</em> is account closure.</td>
+    </tr>
+    <tr>
+      <td>"Is there a way to bulk-export tickets older than 90 days? Couldn't find it in the docs."</td>
+      <td>technical</td><td>other</td>
+      <td>Feature/docs inquiry, not a bug report.</td>
+    </tr>
+    <tr>
+      <td>"Do your invoices show line-item taxes? Our finance team needs that for compliance."</td>
+      <td>billing</td><td>other</td>
+      <td>Product capability question, not a billing dispute.</td>
+    </tr>
+  </table>
+  <p style="margin-top:12px;">
+    Pattern: the classifier latches onto <em>keywords</em> ("charged", "export", "invoice") instead of the user's <em>primary ask</em>.
+    That's a one-line prompt fix waiting to happen — and now we have a way to measure whether it works.
+  </p>
+</section>
+
+<section>
+  <h2><span class="ball"></span> Why "LLM-as-Judge" Beats Regex</h2>
+  <table>
+    <tr><th>Approach</th><th>What it sees</th><th>Baseball analogy</th></tr>
+    <tr>
+      <td>Exact match / regex</td>
+      <td>Did the string match? Pass/fail only.</td>
+      <td>Box score: hit or out. No nuance.</td>
+    </tr>
+    <tr>
+      <td>LLM-as-judge</td>
+      <td>Quality of the answer + <em>why</em> it was right or wrong.</td>
+      <td>Color commentary: "He chased a slider low and away — pitcher set him up perfectly."</td>
+    </tr>
+  </table>
+  <p>
+    The judge turns a pass/fail number into a <strong>diagnosis</strong>.
+    That's the difference between a stat sheet and a coach who can tell you what to fix.
+  </p>
+</section>
+
+<section>
+  <h2><span class="ball"></span> Next at the Plate (Cycle 2)</h2>
+  <p>
+    The harness works. The signal doesn't. Next cycle on this topic:
+  </p>
+  <ul>
+    <li><strong>Throw harder pitches.</strong> Add adversarial tickets — ambiguous overlaps, keyword traps, sparse signal.</li>
+    <li><strong>Compare two pitchers.</strong> Run the same golden set through Sonnet 4.6 and diff the scores.</li>
+    <li><strong>Track the trend.</strong> Save runs over time so prompt changes can be regression-tested.</li>
+  </ul>
+  <div class="callout">
+    <strong>The interview hook:</strong> "I built an eval, scored 100%, and the real lesson was the eval — not the model.
+    A golden set without near-misses can't discriminate between prompts, so the next iteration deliberately seeds boundary cases."
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span class="ball"></span> Let's Go Mets <span class="ball"></span> · Built 2026-05-14 · learning-ai · cycle 1 day 1
+</footer>
+
+</body>
+</html>
