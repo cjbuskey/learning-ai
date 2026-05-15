@@ -1,0 +1,32 @@
+BRIEFS = [
+      {
+          "id": "brief-001",
+          "text": """Plaintiff Meridian Retail Group entered into a services agreement with Defendant Northstar Systems to implement a cloud-based inventory management platform across twenty-five retail locations. The agreement required substantial completion by March 31, with final testing and production deployment no later than April 15. Meridian alleges that Northstar failed to meet both deadlines, delivered an unstable system, and caused Meridian to continue using its legacy inventory tools during the spring sales period.
+
+The central issue is whether Northstar’s delay constitutes a material breach of the services agreement. Meridian argues that timing was essential because the contract expressly tied implementation to its seasonal merchandising calendar. Northstar contends that delays were caused by Meridian’s repeated changes to product hierarchy data and incomplete user acceptance testing. The contract contains a change-control provision, but the parties dispute whether Meridian’s requests were formal scope changes or ordinary implementation clarifications.
+
+Based on the current record, Meridian has a plausible claim for breach of contract, particularly if it can show that the deployment deadline was a bargained-for requirement rather than a target date. However, Northstar may limit liability if it proves that Meridian’s own delays prevented timely performance. The outcome will likely depend on project records, change-control documentation, and communications between the parties during the final month of implementation."""
+      },
+      {
+          "id": "brief-002",
+          "text": """Plaintiff Apex Diagnostics seeks preliminary injunctive relief against its former sales director, Defendant Elena Morris, alleging violation of a non-solicitation agreement. Morris resigned from Apex and joined a regional competitor, Beacon Health Partners, within thirty days. Apex alleges that Morris contacted several former Apex accounts shortly after joining Beacon and used confidential pricing information to encourage those customers to switch vendors.
+
+The restrictive covenant prohibits Morris from soliciting Apex customers with whom she had material contact during the final twelve months of employment. It does not prevent her from working for a competitor generally. Apex argues that the covenant is narrowly tailored because it applies only to existing customers and only for one year. Morris responds that the covenant is overbroad in practice because Apex assigned her to a large territory covering hundreds of accounts, many of which she had only incidental contact with.
+
+To obtain a preliminary injunction, Apex must show a likelihood of success on the merits, irreparable harm, and that the balance of equities favors relief. Apex has produced emails showing that Morris contacted at least two former customers after joining Beacon, but the content of those communications is disputed. Some messages appear to discuss Beacon’s services generally, while others reference Apex’s pricing structure and contract renewal timing. If authenticated, those references may support Apex’s claim that Morris used confidential business information.
+
+A court would likely consider limited injunctive relief appropriate if Apex can tie Morris’s outreach to specific accounts she managed directly. A broader injunction barring her from contacting all Apex customers in the territory may be vulnerable as overinclusive. The stronger remedy would prohibit solicitation of accounts with which Morris had substantial recent contact and prohibit use or disclosure of Apex’s confidential pricing, renewal, and customer strategy information."""
+      },
+      {
+          "id": "brief-003",
+          "text": """Plaintiff Jordan Lee brings a putative class action against Defendant HarborPay, Inc., a payment processing company, after customer transaction records were inadvertently exposed through a misconfigured cloud storage bucket. The exposed records allegedly included customer names, email addresses, partial payment card information, merchant names, transaction dates, and purchase amounts. HarborPay discovered the issue during an internal audit and disabled public access within twenty-four hours.
+
+Lee alleges negligence, breach of implied contract, and violation of applicable consumer protection statutes. The complaint asserts that HarborPay failed to implement reasonable security controls, including access restrictions, automated configuration monitoring, and periodic external vulnerability testing. HarborPay denies that the incident caused legally cognizable harm and maintains that no full card numbers, passwords, or government identification numbers were exposed.
+
+The threshold issue is standing. Lee must show a concrete injury, not merely a speculative risk of future misuse. The exposed information is commercially sensitive and may reveal purchasing patterns, but HarborPay will argue that partial card data and transaction metadata do not create the same risk as Social Security numbers or full payment credentials. Lee may strengthen standing by alleging actual misuse, fraudulent activity, phishing attempts, or out-of-pocket mitigation costs traceable to the exposure.
+
+On the merits, the negligence claim will likely turn on whether HarborPay’s security practices were reasonable in light of its role as a payment processor. Because HarborPay handled financial transaction data, a court may expect stronger controls than it would for a business holding low-risk contact information. Evidence regarding cloud security policies, audit logs, employee access practices, and prior warnings will be central to determining whether HarborPay breached a duty of care.
+
+HarborPay may seek early dismissal of statutory claims if Lee cannot identify a deceptive act, unfair practice, or specific statutory duty violated by the configuration error. However, dismissal of all claims may be premature if discovery is needed to determine how long the data was exposed, whether it was accessed by unauthorized parties, and whether HarborPay’s safeguards were consistent with industry standards. A court may allow a narrowed negligence or consumer protection claim to proceed while dismissing claims based only on speculative future harm."""
+      },
+  ]

@@ -1,0 +1,5 @@
+### Observability Packages
+anthropic
+langfuse
+python-dotenv
+opentelemetry-instrumentation-anthropic

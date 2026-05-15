@@ -1,6 +1,6 @@
 {
   "cycle": 1,
-  "last_topic_index": 1,
+  "last_topic_index": 2,
   "history": [
     {
       "date": "2026-05-14",
@@ -13,6 +13,18 @@
       "format": "BUILD",
       "done": true,
       "headline": "From-scratch offline eval harness; first run hit 15/15 (golden set too easy). Added 4 adversarial tickets, dropped to 16/19 (84.2%) — failures revealed the classifier latches onto keywords rather than primary ask."
+    },
+    {
+      "date": "2026-05-15",
+      "cycle": 1,
+      "day": 2,
+      "topic": "observability",
+      "topic_index": 2,
+      "slug": "legal-summarizer",
+      "folder": "observability/cycle-1-day-2-legal-summarizer",
+      "format": "BUILD",
+      "done": true,
+      "headline": "Two-step legal-brief summarizer (extract → summary) traced with Langfuse v4 via AnthropicInstrumentor + @observe. Two scores per trace (compression_ratio + LLM-judge faithfulness). First run showed 2/3 traces with faithfulness=0.0; the trace UI revealed the model returned correct scores like '0.75' but max_tokens=10 truncated trailing prose, breaking float() parsing — bug was in the parser, not the model. Lesson: observability decides which component to debug."
     }
   ]
 }

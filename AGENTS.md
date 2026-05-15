@@ -45,7 +45,9 @@ Cycle 2+ projects often **build on** prior cycle artifacts. When that happens, i
 
 ## Stack
 
-No global default. Each brief specifies the stack (Python, Node/TS, etc.). Set up environments per-project so each folder is self-contained and reproducible.
+No global default. Each brief specifies the stack (Python, Node/TS, etc.).
+
+**Python venv:** shared `.venv/` at the repo root, activated for daily work. Each project still ships its own `requirements.txt` as a record of what that day needed (interview-artifact value, future reproducibility). Create a per-project venv only when versions conflict with the shared environment.
 
 ## Secrets
 
